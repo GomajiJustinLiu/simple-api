@@ -1,0 +1,9 @@
+version: '3'
+services:
+  web:
+    image: alpine-nginx-php7:latest
+    ports:
+      - "8080:8080"
+    privileged: true
+    volumes:
+      - ../:/var/www/html
