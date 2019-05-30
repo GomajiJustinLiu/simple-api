@@ -1,11 +1,20 @@
 version: '3'
 services:
-  web:
+  frontend:
+    image: simple-frontend:latest
+    ports:
+      - "3000:3000"
+    environment:
+      - API_HOST=http://web:8080/api
+    links:
+      - api
+  api:
     image: alpine-nginx-php7:latest
     ports:
       - "8080:8080"
     environment:
       - REDIS_HOST=redis
+      - GOOGLE_APPLICATION_CREDENTIALS=/var/www/html/google_auth.json
     privileged: true
     volumes:
       - ../:/var/www/html

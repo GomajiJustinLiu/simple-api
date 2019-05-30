@@ -1,8 +1,10 @@
 <?php
 
+use Predis\Client;
 use Slim\App;
 
 return function (App $app) {
+
     $container = $app->getContainer();
 
     // view renderer
@@ -19,4 +21,10 @@ return function (App $app) {
         $logger->pushHandler(new \Monolog\Handler\StreamHandler($settings['path'], $settings['level']));
         return $logger;
     };
+
+    $container['redis'] = function ($c) {
+        $redisHost = getenv('REDIS_HOST');
+        return new Client(['host' => $redisHost, 'port' => 6379]);
+    };
+
 };
